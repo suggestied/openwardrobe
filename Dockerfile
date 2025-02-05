@@ -1,21 +1,28 @@
-FROM ghcr.io/fluttercommunity/flutter:latest AS build
+FROM dart:stable AS build
 
 # Set working directory inside the container
 WORKDIR /app
 
-# Copy Flutter project files
+# Install Flutter manually
+RUN git clone https://github.com/flutter/flutter.git -b stable /flutter
+ENV PATH="/flutter/bin:$PATH"
+
+# Verify Flutter installation
+RUN flutter --version
+
+# Copy project files
 COPY . .
 
-# Get Flutter dependencies
+# Get dependencies
 RUN flutter pub get
 
-# Build Flutter Web app
+# Build Flutter Web
 RUN flutter build web --release
 
 # Use Nginx as a lightweight web server
 FROM nginx:alpine
 
-# Copy the built web app to Nginx’s default HTML directory
+# Copy built Flutter Web files to Nginx's HTML directory
 COPY --from=build /app/build/web /usr/share/nginx/html
 
 # Expose port 80
