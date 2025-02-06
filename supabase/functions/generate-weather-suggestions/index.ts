@@ -5,20 +5,14 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 
+
 console.log("Hello from Functions!")
 
 Deno.serve(async (req) => {
-  // get supabase user from request
-  const user = req.supabase.auth.user()
 
-  // get request payload
-  const body = await req.json()
-
-  // return a response
-  
 
   return new Response(
-    JSON.stringify(data),
+    JSON.stringify({ message: "Hello, Functions!" }),
     { headers: { "Content-Type": "application/json" } },
   )
 })
