@@ -1,0 +1,2 @@
+
+ALTER TABLE item_metadata ADD COLUMN IF NOT EXISTS metadata JSONB;
