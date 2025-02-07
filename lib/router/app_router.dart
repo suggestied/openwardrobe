@@ -44,7 +44,7 @@ class AppRouter {
             name: 'Home',
             pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
           ),
-          // Add more protected routes here if needed
+        //   We still need to wardrobe, analytics, and settings routes, and subroutes
         ],
       ),
     ],
