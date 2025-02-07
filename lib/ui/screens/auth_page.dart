@@ -13,7 +13,9 @@ class AuthScreen extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
+            // Logo and auth UI
             child: SupaEmailAuth(
+                
               redirectTo: '/home',  // Redirect to home after successful login
               onSignInComplete: (AuthResponse response) {
                 if (response.session != null) {

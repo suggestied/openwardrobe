@@ -29,8 +29,11 @@ class MyApp extends StatelessWidget {
       title: 'OpenWardrobe',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        useMaterial3: true,  // Enable Material 3 (modern UI)
       ),
+      darkTheme: ThemeData.dark(),  // Support dark mode
+      themeMode: ThemeMode.system,  // Automatically switch theme
+
       routerConfig: AppRouter.router,
     );
   }
