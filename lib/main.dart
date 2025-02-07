@@ -3,9 +3,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'router/app_router.dart';
 
+import 'models/wardrobe_item.dart';
+import 'models/outfit.dart';
+import 'models/brand.dart';
+import 'models/item_category.dart';
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Hive for local storage
+  await Hive.initFlutter();
 
   // Initialize Supabase
   await Supabase.initialize(
@@ -14,8 +22,11 @@ Future<void> main() async {
     debug: true,
   );
 
-  // Initialize Hive for local storage
-  await Hive.initFlutter();
+
+   Hive.registerAdapter(WardrobeItemAdapter());
+  Hive.registerAdapter(OutfitAdapter());
+  Hive.registerAdapter(BrandAdapter());
+  Hive.registerAdapter(ItemCategoryAdapter());
 
   runApp(const MyApp());
 }

@@ -24,6 +24,10 @@ class HomeScreen extends StatelessWidget {
       body: const Center(
         child: Text('Welcome to OpenWardrobe! You are logged in.'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.go('/wardrobe'),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

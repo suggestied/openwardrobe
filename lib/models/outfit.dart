@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'wardrobe_item.g.dart'; 
+part 'outfit.g.dart';
 
-@HiveType(typeId: 0)
-class WardrobeItem extends HiveObject {
+@HiveType(typeId: 1)
+class Outfit extends HiveObject {
   @HiveField(0)
   final String id;
 
@@ -14,52 +14,44 @@ class WardrobeItem extends HiveObject {
   final String name;
 
   @HiveField(3)
-  final String? brandId;
-
-  @HiveField(4)
-  final String? categoryId;
-
-  @HiveField(5)
   final DateTime createdAt;
 
-  @HiveField(6)
+  @HiveField(4)
   final DateTime updatedAt;
 
-  @HiveField(7)
-  bool isSynced;  // For tracking sync status with Supabase
+  @HiveField(5)
+  List<String> wardrobeItemIds;  // To link wardrobe items to the outfit
 
-  WardrobeItem({
+  @HiveField(6)
+  bool isSynced;
+
+  Outfit({
     required this.id,
     required this.userId,
     required this.name,
-    this.brandId,
-    this.categoryId,
     required this.createdAt,
     required this.updatedAt,
+    this.wardrobeItemIds = const [],
     this.isSynced = true,
   });
 
-  // From Supabase JSON
-  factory WardrobeItem.fromJson(Map<String, dynamic> json) {
-    return WardrobeItem(
+  factory Outfit.fromJson(Map<String, dynamic> json) {
+    return Outfit(
       id: json['id'],
       userId: json['user_id'],
       name: json['name'],
-      brandId: json['brand_id'],
-      categoryId: json['category_id'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
+      wardrobeItemIds: List<String>.from(json['wardrobe_item_ids'] ?? []),
     );
   }
 
-  // To Supabase JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'user_id': userId,
         'name': name,
-        'brand_id': brandId,
-        'category_id': categoryId,
         'created_at': createdAt.toIso8601String(),
         'updated_at': updatedAt.toIso8601String(),
+        'wardrobe_item_ids': wardrobeItemIds,
       };
 }
