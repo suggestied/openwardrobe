@@ -34,7 +34,7 @@ class WardrobeItemPage extends StatelessWidget {
               
               return Column(
                 children: [
-                  WardrobeItemCard(item: item),
+                  WardrobeItemCard(item: item, size:500),
                   const SizedBox(height: 16),
                 ],
               );

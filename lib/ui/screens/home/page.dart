@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
     children: [
       // Max width for row
       
-    ConstrainedBox(constraints: BoxConstraints(maxWidth: 400),
+    ConstrainedBox(constraints: BoxConstraints(maxWidth: 500),
     child: 
       // Make a row
       Row(
