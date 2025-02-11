@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
+import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -48,8 +49,10 @@ class HomeScreen extends StatelessWidget {
                 itemCount: clothes?.length ?? 0,
                 itemBuilder: (context, index) {
                   final item = clothes![index];
-                  return ListTile(
-                    title: Text(item.name),
+                  //WardrobeItemCard
+                  return WardrobeItemCard(
+                    item: item,
+                    onTap: () => context.go('/wardrobe/${item.id}'),
                   );
                 },
               );

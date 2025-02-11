@@ -10,6 +10,10 @@ class WardrobeService {
     return await wardrobeRepository.fetchItems();
   }
 
+  Future<WardrobeItem> getWardrobeItem(String id) async {
+    return await wardrobeRepository.fetchItem(id);
+  }
+
   Future<void> addWardrobeItem(WardrobeItem item) async {
     await wardrobeRepository.addItem(item);
   }

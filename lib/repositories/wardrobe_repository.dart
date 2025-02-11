@@ -24,6 +24,19 @@ class WardrobeRepository {
     }
   }
 
+  // fetch Item
+  Future<WardrobeItem> fetchItem(String id) async {
+    final isOnline = await _checkConnectivity();
+    if (isOnline) {
+      final response = await supabaseClient.from('wardrobe_item').select().eq('id', id).single();
+      final item = WardrobeItem.fromJson(response);
+      return item;
+    } else {
+      final items = await _fetchItemsFromLocal();
+      return items.firstWhere((item) => item.id == id);
+    }
+  }
+
   // Voeg een nieuw item toe, afhankelijk van netwerkstatus
   Future<void> addItem(WardrobeItem item) async {
     final isOnline = await _checkConnectivity();

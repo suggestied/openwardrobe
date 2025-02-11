@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openwardrobe/ui/screens/wardrobe/item_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/home_page.dart';
@@ -43,6 +44,15 @@ class AppRouter {
             path: '/home',
             name: 'Home',
             pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
+          ),
+          // Wardrobe Item Details Route
+          GoRoute(
+            path: '/wardrobe/:id',
+            name: 'WardrobeItem',
+            pageBuilder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return NoTransitionPage(child: WardrobeItemPage(id: id));
+            },
           ),
         //   We still need to wardrobe, analytics, and settings routes, and subroutes
         ],
