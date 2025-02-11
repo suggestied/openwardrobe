@@ -34,34 +34,41 @@ class HomeScreen extends StatelessWidget {
           IconButton(icon: const Icon(Icons.logout), onPressed: _signOut),
         ],
       ),
-      body: Center(
-        // A dashboard with all the wardrobe items
-        child: FutureBuilder<List<WardrobeItem>>(
-          future: _getClothes(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              final clothes = snapshot.data;
-              return ListView.builder(
-                itemCount: clothes?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final item = clothes![index];
-                  //WardrobeItemCard
-                  return WardrobeItemCard(
-                    item: item,
-                    onTap: () => context.go('/wardrobe/${item.id}'),
-                  );
+      body: Align(
+  alignment: Alignment.topCenter, // Houdt de items bovenaan en gecentreerd horizontaal
+  child: FutureBuilder<List<WardrobeItem>>(
+    future: _getClothes(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else if (snapshot.hasData) {
+        final clothes = snapshot.data;
+        return Wrap(
+          spacing: 8.0,
+          runSpacing: 8.0,
+          children: clothes?.map((item) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 500, // Max breedte per item
+              ),
+              child: WardrobeItemCard(
+                item: item,
+                onTap: () {
+                  context.go('/wardrobe/${item.id}');
                 },
-              );
-            } else {
-              return const Text('No data');
-            }
-          },
-        ),
-      ),
+              ),
+            );
+          }).toList() ?? [],
+        );
+      } else {
+        return const Text('No data');
+      }
+    },
+  ),
+),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/wardrobe'),
         child: const Icon(Icons.add),
