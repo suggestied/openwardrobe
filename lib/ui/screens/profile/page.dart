@@ -42,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
             return const Center(child: Text('No profile data available'));
           }
         },
+        
       ),
     );
   }
