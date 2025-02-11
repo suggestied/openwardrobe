@@ -8,7 +8,6 @@ class TabScaffold extends StatelessWidget {
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
-    if (location == '/') return 0;
     if (location.startsWith('/wardrobe')) return 1;
     if (location.startsWith('/profile')) return 2;
     if (location.startsWith('/settings')) return 3;
