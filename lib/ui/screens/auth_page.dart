@@ -16,10 +16,10 @@ class AuthScreen extends StatelessWidget {
             // Logo and auth UI
             child: SupaEmailAuth(
                 
-              redirectTo: '/home',  // Redirect to home after successful login
+              redirectTo: '/',  // Redirect to home after successful login
               onSignInComplete: (AuthResponse response) {
                 if (response.session != null) {
-                  context.go('/home');
+                  context.go('/');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Login failed. Please try again.')),

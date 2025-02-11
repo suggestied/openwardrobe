@@ -9,7 +9,7 @@ import '../ui/widgets/tab_scaffold.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/',
     
     // Handle redirection based on auth status
     redirect: (BuildContext context, GoRouterState state) {
@@ -20,7 +20,7 @@ class AppRouter {
       if (!isLoggedIn && !isLoggingIn) {
         return '/auth';  // Redirect unauthenticated users to login
       } else if (isLoggedIn && isLoggingIn) {
-        return '/home';  // Redirect logged-in users away from login
+        return '/';  // Redirect logged-in users away from login
       }
 
       return null;  // No redirection needed
@@ -41,7 +41,7 @@ class AppRouter {
         },
         routes: [
           GoRoute(
-            path: '/home',
+            path: '/',
             name: 'Home',
             pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
           ),
