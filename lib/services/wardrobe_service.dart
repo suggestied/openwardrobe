@@ -18,6 +18,11 @@ class WardrobeService {
     await wardrobeRepository.addItem(item);
   }
 
+  // fetchPublicItemsByUser
+  Future<List<WardrobeItem>> fetchPublicItemsByUser(String userId) async {
+    return await wardrobeRepository.fetchPublicItemsByUser(userId);
+  }
+
   Future<void> syncWardrobe() async {
     await wardrobeRepository.syncLocalChanges();
   }
