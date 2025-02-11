@@ -34,5 +34,5 @@ An **open-source, privacy-first** wardrobe app built with **Flutter & Supabase**
 
 ### **1️⃣ Clone the Repository**
 ```sh
-git clone https://github.com/suggestied/openwardrobe.git
+git clone https://github.com/openwardrobe/app.git
 cd openwardrobe
