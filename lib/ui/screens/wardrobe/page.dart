@@ -74,7 +74,6 @@ class WardrobeScreen extends StatelessWidget {
                     labelText: 'Search',
                     // Icon
                     prefixIcon: Icon(Icons.search),
-                    fillColor: Colors.white,
                     filled: true,
                   ),
                   ),

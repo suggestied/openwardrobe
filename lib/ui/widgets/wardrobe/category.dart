@@ -29,16 +29,16 @@ class WarderobeCategory extends StatelessWidget {
                   image: image.image,
                   fit: BoxFit.cover,
                 ),
-                border: isSelected ? Border.all(color: Colors.blue, width: 3) : null,
+                border: isSelected ? Border.all(color: Colors.primaries.last, width: 3) : null,
                 boxShadow: isSelected
-                    ? [BoxShadow(color: Colors.black26, blurRadius: 10, spreadRadius: 1)]
+                    ? [BoxShadow(color: Colors.primaries.last, blurRadius: 10, spreadRadius: 1)]
                     : [],
               ),
             ),
             const SizedBox(height: 10),
             Text(
               text,
-              style: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w100),
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
           ],
