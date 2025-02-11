@@ -64,6 +64,8 @@ class WardrobeScreen extends StatelessWidget {
             // Padding
             // Search bar
 
+          ConstrainedBox(constraints: BoxConstraints(maxWidth: 500),
+          child: 
             Column(
               children: [
                 Padding(
@@ -80,6 +82,7 @@ class WardrobeScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
 
 
             Wrap(
