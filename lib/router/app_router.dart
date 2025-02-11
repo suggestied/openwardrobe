@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openwardrobe/ui/screens/wardrobe/item_page.dart';
+import 'package:openwardrobe/ui/screens/wardrobe/item/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../ui/screens/home_page.dart';
-import '../ui/screens/auth_page.dart';  
+import '../ui/screens/auth/page.dart';  
+import '../ui/screens/home/page.dart';
+import '../ui/screens/wardrobe/page.dart';
+import '../ui/screens/profile/page.dart';
+
 import '../ui/widgets/tab_scaffold.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
     
-    // Handle redirection based on auth status
     redirect: (BuildContext context, GoRouterState state) {
       final session = Supabase.instance.client.auth.currentSession;
       final isLoggedIn = session != null;
       final isLoggingIn = state.uri.toString() == '/auth';
 
       if (!isLoggedIn && !isLoggingIn) {
-        return '/auth';  // Redirect unauthenticated users to login
+        return '/auth';
       } else if (isLoggedIn && isLoggingIn) {
-        return '/';  // Redirect logged-in users away from login
+        return '/';
       }
 
-      return null;  // No redirection needed
+      return null;
     },
 
     routes: [
-      // Login Route (accessible without authentication)
       GoRoute(
         path: '/auth',
         name: 'Auth',
         pageBuilder: (context, state) => NoTransitionPage(child: AuthScreen()),
       ),
 
-      // Protected Routes (require authentication)
       ShellRoute(
         builder: (context, state, child) {
           return TabScaffold(child: child);
@@ -45,7 +45,16 @@ class AppRouter {
             name: 'Home',
             pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
           ),
-          // Wardrobe Item Details Route
+          GoRoute(
+            path: '/wardrobe',
+            name: 'Wardrobe',
+            pageBuilder: (context, state) => NoTransitionPage(child: WardrobeScreen()),
+          ),
+          GoRoute(
+            path: '/profile',
+            name: 'Profile',
+            pageBuilder: (context, state) => NoTransitionPage(child: ProfileScreen()),
+          ),
           GoRoute(
             path: '/wardrobe/:id',
             name: 'WardrobeItem',
@@ -54,7 +63,6 @@ class AppRouter {
               return NoTransitionPage(child: WardrobeItemPage(id: id));
             },
           ),
-        //   We still need to wardrobe, analytics, and settings routes, and subroutes
         ],
       ),
     ],
