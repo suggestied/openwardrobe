@@ -45,6 +45,7 @@ dependencies:
   equatable: ^2.0.7
   supabase_auth_ui: ^0.5.4
   build_runner: ^2.4.6
+  file_picker: ^8.3.5
 
 dev_dependencies:
   flutter_test:

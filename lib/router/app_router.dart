@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openwardrobe/ui/screens/wardrobe/item/add/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/auth/page.dart';
@@ -57,8 +58,14 @@ class AppRouter {
                 name: 'Wardrobe',
                 builder: (context, state) => const ProfileScreen(),
                 routes: [
+                  // Add
                   GoRoute(
-                    path: ':id',
+                    path: '/add',
+                    name: 'AddItem',
+                    builder: (context, state) => const CreateItemPage(),
+                  ),
+                  GoRoute(
+                    path: '/item/:id',
                     name: 'WardrobeItem',
                     builder: (context, state) {
                       final id = state.pathParameters['id']!;
