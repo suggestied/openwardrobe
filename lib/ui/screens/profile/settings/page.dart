@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:openwardrobe/repositories/user_profile_repository.dart';
 
 class SettingsPage extends StatefulWidget {
-
   SettingsPage({super.key});
 
   final UserProfileService userProfileService = UserProfileService(UserProfileRepository());
@@ -17,24 +16,35 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
 
-  String _username = '';
-  String _displayName = '';
-  String _bio = '';
+  late TextEditingController _usernameController;
+  late TextEditingController _displayNameController;
+  late TextEditingController _bioController;
   bool _isPublic = true;
 
   @override
   void initState() {
     super.initState();
+    _usernameController = TextEditingController();
+    _displayNameController = TextEditingController();
+    _bioController = TextEditingController();
     _loadUserProfile();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _displayNameController.dispose();
+    _bioController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserProfile() async {
     final profile = await widget.userProfileService.getUserProfile();
     if (profile != null) {
       setState(() {
-        _username = profile.username;
-        _displayName = profile.displayName ?? '';
-        _bio = profile.bio ?? '';
+        _usernameController.text = profile.username;
+        _displayNameController.text = profile.displayName ?? '';
+        _bioController.text = profile.bio ?? '';
         _isPublic = profile.isPublic;
       });
     }
@@ -46,9 +56,9 @@ class SettingsPageState extends State<SettingsPage> {
 
     final profile = UserProfile(
       id: userId,
-      username: _username,
-      displayName: _displayName,
-      bio: _bio,
+      username: _usernameController.text,
+      displayName: _displayNameController.text,
+      bio: _bioController.text,
       isPublic: _isPublic,
     );
 
@@ -71,20 +81,17 @@ class SettingsPageState extends State<SettingsPage> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: _username,
+                controller: _usernameController,
                 decoration: InputDecoration(labelText: 'Username'),
-                onChanged: (value) => _username = value,
                 validator: (value) => value!.isEmpty ? 'Enter a username' : null,
               ),
               TextFormField(
-                initialValue: _displayName,
+                controller: _displayNameController,
                 decoration: InputDecoration(labelText: 'Display Name'),
-                onChanged: (value) => _displayName = value,
               ),
               TextFormField(
-                initialValue: _bio,
+                controller: _bioController,
                 decoration: InputDecoration(labelText: 'Bio'),
-                onChanged: (value) => _bio = value,
               ),
               SwitchListTile(
                 title: Text('Public Profile'),

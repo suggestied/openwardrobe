@@ -6,10 +6,10 @@ import '../models/user_profile.dart';
 class UserProfileRepository {
   final SupabaseClient supabaseClient = Supabase.instance.client;
 
-  // Fetch user profile from Supabase or from local storage if offline
   Future<UserProfile?> fetchUserProfile() async {
     final isOnline = await _checkConnectivity();
     final userId = supabaseClient.auth.currentUser?.id;
+
     if (userId == null) return null;
 
     if (isOnline) {
@@ -20,6 +20,7 @@ class UserProfileRepository {
             .eq('id', userId)
             .single();
         final userProfile = UserProfile.fromJson(response);
+        
         await _cacheProfileLocally(userProfile);
         return userProfile;
       } catch (error) {
