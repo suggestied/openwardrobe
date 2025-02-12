@@ -57,9 +57,8 @@ class AppRouter {
                 name: 'Wardrobe',
                 builder: (context, state) => const ProfileScreen(),
                 routes: [
-                  // Add
                   GoRoute(
-                    path: '/add',
+                    path: '/item/add',
                     name: 'AddItem',
                     builder: (context, state) => const CreateItemPage(),
                   ),

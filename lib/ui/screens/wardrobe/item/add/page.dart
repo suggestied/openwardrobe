@@ -6,13 +6,13 @@ import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CreateItemPage extends StatefulWidget {
-  const CreateItemPage({Key? key}) : super(key: key);
+  const CreateItemPage({super.key});
 
   @override
-  _CreateItemPageState createState() => _CreateItemPageState();
+  CreateItemPageState createState() => CreateItemPageState();
 }
 
-class _CreateItemPageState extends State<CreateItemPage> {
+class CreateItemPageState extends State<CreateItemPage> {
   final _formKey = GlobalKey<FormState>();
   String? _name;
   String? _brand;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/models/user_profile.dart';
 import 'package:openwardrobe/repositories/user_profile_repository.dart';
 import 'package:openwardrobe/services/user_profile_service.dart';
@@ -44,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here
+          context.push('/wardrobe/item/add');
         },
         child: const Icon(Icons.add),
       ),
