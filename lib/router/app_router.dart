@@ -5,8 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
-import '../ui/screens/profile/page.dart';
-import '../ui/screens/profile/settings/page.dart';
+import '../ui/screens/wardrobe/settings/page.dart';
 import '../ui/screens/wardrobe/item/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
 

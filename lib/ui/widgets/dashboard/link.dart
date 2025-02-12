@@ -32,7 +32,7 @@ class DashboardLink extends StatelessWidget {
               Icon(icon, color: Colors.white),
               Text(
               text,
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w100),
+              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
               ),
             ],
