@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 class TabScaffold extends StatelessWidget {
   final Widget child;
 
-  const TabScaffold({Key? key, required this.child}) : super(key: key);
+  const TabScaffold({super.key, required this.child});
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();

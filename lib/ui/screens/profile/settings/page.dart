@@ -6,15 +6,15 @@ import 'package:openwardrobe/repositories/user_profile_repository.dart';
 
 class SettingsPage extends StatefulWidget {
 
-  SettingsPage();
+  SettingsPage({super.key});
 
   final UserProfileService userProfileService = UserProfileService(UserProfileRepository());
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  SettingsPageState createState() => SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
 
   String _username = '';
@@ -55,7 +55,9 @@ class _SettingsPageState extends State<SettingsPage> {
     final success = await widget.userProfileService.updateUserProfile(profile);
     final message = success ? 'Settings saved successfully!' : 'Error saving settings.';
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    }
   }
 
   @override

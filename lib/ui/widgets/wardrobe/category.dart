@@ -6,8 +6,7 @@ class WarderobeCategory extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const WarderobeCategory({Key? key, required this.text, required this.image, required this.isSelected, required this.onTap})
-      : super(key: key);
+  const WarderobeCategory({super.key, required this.text, required this.image, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

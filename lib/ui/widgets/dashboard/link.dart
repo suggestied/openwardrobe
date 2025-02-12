@@ -11,8 +11,7 @@ class DashboardLink extends StatelessWidget {
   final VoidCallback onTap;
   final Color color;
 
-  const DashboardLink({Key? key, required this.text, required this.icon, required this.onTap, this.color = Colors.grey})
-      : super(key: key);
+  const DashboardLink({super.key, required this.text, required this.icon, required this.onTap, this.color = Colors.grey});
 
   @override
   Widget build(BuildContext context) {

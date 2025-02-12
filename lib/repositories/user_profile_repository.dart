@@ -59,7 +59,7 @@ class UserProfileRepository {
   // Check network connectivity
   Future<bool> _checkConnectivity() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
+    return connectivityResult[0] != ConnectivityResult.none;
   }
 
   // Save profile locally when offline

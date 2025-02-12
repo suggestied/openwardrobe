@@ -83,7 +83,7 @@ class WardrobeRepository {
   // Controleer netwerkverbinding
   Future<bool> _checkConnectivity() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
+    return connectivityResult[0] != ConnectivityResult.none;
   }
 
   // Voeg ontbrekende methode toe voor lokaal opslaan van items

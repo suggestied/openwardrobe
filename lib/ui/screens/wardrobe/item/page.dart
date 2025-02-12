@@ -8,7 +8,7 @@ import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
 class WardrobeItemPage extends StatelessWidget {
   final String id;
 
-  const WardrobeItemPage({Key? key, required this.id}) : super(key: key);
+  const WardrobeItemPage({super.key, required this.id});
 
   Future<WardrobeItem> _getItem() async {
     final wardrobeService = WardrobeService(WardrobeRepository());
