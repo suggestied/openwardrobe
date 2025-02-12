@@ -4,6 +4,8 @@ import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
+// WarderobeCategory
+import 'package:openwardrobe/ui/widgets/wardrobe/category.dart';
 
 
 class WardrobeScreen extends StatelessWidget {
@@ -31,22 +33,74 @@ class WardrobeScreen extends StatelessWidget {
         return Text('Error: ${snapshot.error}');
       } else if (snapshot.hasData) {
         final clothes = snapshot.data;
-        return Wrap(
-          spacing: 8.0,
-          runSpacing: 8.0,
-          children: clothes?.map((item) {
-            return ConstrainedBox(
+        return Column(
+          children: [
+            // Max width with child
+            ConstrainedBox(
               constraints: BoxConstraints(
+<<<<<<< HEAD
                 maxWidth: 500,
+=======
+                maxWidth: 400, // Max breedte per item
+>>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
               ),
-              child: WardrobeItemCard(
-                item: item,
-                onTap: () {
-                  context.go('/wardrobe/${item.id}');
-                },
-              ),
-            );
-          }).toList() ?? [],
+              child:
+              Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WarderobeCategory(text: 'All Items', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: true, onTap: () {
+              context.go('/wardrobe');
+            }),
+            WarderobeCategory(text: 'Tops', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
+              context.go('/wardrobe/tops');
+            }),
+            WarderobeCategory(text: 'Bottoms', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
+              context.go('/wardrobe/bottoms');
+            }),
+              ],
+            ),
+            ),
+            // Add search bar
+
+            // Create search bar using material
+            // In a column with padding
+            // Padding
+            // Search bar
+
+          ConstrainedBox(constraints: BoxConstraints(maxWidth: 500),
+          child: 
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Search',
+                    // Icon
+                    prefixIcon: Icon(Icons.search),
+                    filled: true,
+                  ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: clothes?.map((item) {
+          return WardrobeItemCard(
+            item: item,
+            onTap: () {
+              context.go('/wardrobe/${item.id}');
+            },
+          );
+              }).toList() ?? [],
+            ),
+          ],
         );
       } else {
         return const Text('No data');

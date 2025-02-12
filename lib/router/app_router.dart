@@ -7,10 +7,13 @@ import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
 import '../ui/screens/profile/page.dart';
+import '../ui/screens/profile/settings/page.dart';
 
 import '../ui/widgets/tab_scaffold.dart';
 
+
 class AppRouter {
+
   static final GoRouter router = GoRouter(
     initialLocation: '/',
     
@@ -55,6 +58,9 @@ class AppRouter {
             name: 'Profile',
             pageBuilder: (context, state) => NoTransitionPage(child: ProfileScreen()),
           ),
+          // Settings
+          GoRoute(path: '/settings', name: 'Settings', pageBuilder: (context, state) => NoTransitionPage(child: SettingsPage())),
+
           GoRoute(
             path: '/wardrobe/:id',
             name: 'WardrobeItem',

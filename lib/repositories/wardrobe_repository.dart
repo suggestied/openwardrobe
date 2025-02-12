@@ -59,6 +59,12 @@ class WardrobeRepository {
     }
   }
 
+  // fetchPublicItemsByUser(userId)
+  Future<List<WardrobeItem>> fetchPublicItemsByUser(String userId) async {
+    final response = await supabaseClient.from('wardrobe_item').select().eq('user_id', userId);
+    return (response as List).map((item) => WardrobeItem.fromJson(item)).toList();
+  }
+
   // Cache items lokaal met Hive
   Future<void> _cacheItemsLocally(List<WardrobeItem> items) async {
     final box = await Hive.openBox<WardrobeItem>('wardrobe_item');

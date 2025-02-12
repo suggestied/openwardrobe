@@ -11,7 +11,12 @@ class TabScaffold extends StatelessWidget {
     if (location == '/') return 0;
     if (location.startsWith('/wardrobe')) return 1;
     if (location.startsWith('/profile')) return 2;
+<<<<<<< HEAD
     return -1;
+=======
+    if (location.startsWith('/settings')) return 3;
+    return 0;  // Default naar Home als geen match
+>>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
   }
 
   void _onItemTapped(BuildContext context, int index) {
@@ -25,6 +30,9 @@ class TabScaffold extends StatelessWidget {
       case 2:
         context.go('/profile');
         break;
+      case 3:
+        context.go('/settings');
+        break;
     }
   }
 
@@ -35,6 +43,9 @@ class TabScaffold extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.primaries.first,
+        backgroundColor: Colors.primaries.last,
+        unselectedItemColor: Colors.primaries.last,
         currentIndex: selectedIndex,
         onTap: (index) => _onItemTapped(context, index),
         items: const [
@@ -42,6 +53,11 @@ class TabScaffold extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.checkroom), label: 'Wardrobe'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+<<<<<<< HEAD
+=======
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          
+>>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
         ],
       ),
     );
