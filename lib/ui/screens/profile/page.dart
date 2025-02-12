@@ -25,6 +25,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        
       ),
       body: FutureBuilder<UserProfile?>(
         future: _fetchUserProfile(),
@@ -42,6 +43,7 @@ class ProfileScreen extends StatelessWidget {
         },
         
       ),
+
     );
   }
 
@@ -51,8 +53,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: [
           _buildProfileCard(context, user),
-          const SizedBox(height: 20),
-          if (user != null) _buildPublicItemsList(context, user.id),
+          if (user != null) _buildTabBar(context, user)
         ],
       ),
     );
@@ -91,6 +92,40 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Build tab bar with public items, and a empty tab
+  Widget _buildTabBar(BuildContext context, UserProfile user) {
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          const TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.public),
+                text: 'Items',
+              ),
+              Tab(
+                icon: Icon(Icons.style),
+                text: 'Outfits',
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 400,
+            child: TabBarView(
+              children: [
+                _buildPublicItemsList(context, user.id),
+                const Center(child: Text('Empty tab')),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   Widget _buildPublicItemsList(BuildContext context, String userId) {
     return FutureBuilder<List<WardrobeItem>>(
       future: _fetchPublicItems(userId),
@@ -101,13 +136,10 @@ class ProfileScreen extends StatelessWidget {
           return Text('Error loading items: ${snapshot.error}');
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Wardrobe Items',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 10),
+
                Wrap(
               spacing: 8.0,
               runSpacing: 8.0,

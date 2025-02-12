@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openwardrobe/ui/screens/wardrobe/item/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../ui/screens/auth/page.dart';  
+import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
 import '../ui/screens/profile/page.dart';
 import '../ui/screens/profile/settings/page.dart';
-
-import '../ui/widgets/tab_scaffold.dart';
-
+import '../ui/screens/wardrobe/item/page.dart';
+import '../ui/widgets/scaffold_with_navbar.dart';
 
 class AppRouter {
+  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     initialLocation: '/',
-    
+    navigatorKey: _rootNavigatorKey,
     redirect: (BuildContext context, GoRouterState state) {
       final session = Supabase.instance.client.auth.currentSession;
       final isLoggedIn = session != null;
@@ -30,44 +30,60 @@ class AppRouter {
 
       return null;
     },
-
     routes: [
       GoRoute(
         path: '/auth',
         name: 'Auth',
-        pageBuilder: (context, state) => NoTransitionPage(child: AuthScreen()),
+        builder: (context, state) => const AuthScreen(),
       ),
-
-      ShellRoute(
-        builder: (context, state, child) {
-          return TabScaffold(child: child);
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return ScaffoldWithNavBar(navigationShell: navigationShell);
         },
-        routes: [
-          GoRoute(
-            path: '/',
-            name: 'Home',
-            pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'Home',
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/wardrobe',
-            name: 'Wardrobe',
-            pageBuilder: (context, state) => NoTransitionPage(child: WardrobeScreen()),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/wardrobe',
+                name: 'Wardrobe',
+                builder: (context, state) => const WardrobeScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: 'WardrobeItem',
+                    builder: (context, state) {
+                      final id = state.pathParameters['id']!;
+                      return WardrobeItemPage(id: id);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/profile',
-            name: 'Profile',
-            pageBuilder: (context, state) => NoTransitionPage(child: ProfileScreen()),
-          ),
-          // Settings
-          GoRoute(path: '/settings', name: 'Settings', pageBuilder: (context, state) => NoTransitionPage(child: SettingsPage())),
-
-          GoRoute(
-            path: '/wardrobe/:id',
-            name: 'WardrobeItem',
-            pageBuilder: (context, state) {
-              final id = state.pathParameters['id']!;
-              return NoTransitionPage(child: WardrobeItemPage(id: id));
-            },
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                name: 'Profile',
+                builder: (context, state) => ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'settings',
+                    name: 'Settings',
+                    builder: (context, state) => SettingsPage(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
