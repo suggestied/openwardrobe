@@ -38,11 +38,7 @@ class WardrobeScreen extends StatelessWidget {
             // Max width with child
             ConstrainedBox(
               constraints: BoxConstraints(
-<<<<<<< HEAD
-                maxWidth: 500,
-=======
                 maxWidth: 400, // Max breedte per item
->>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
               ),
               child:
               Row(

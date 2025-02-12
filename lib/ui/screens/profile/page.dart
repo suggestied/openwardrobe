@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'package:openwardrobe/models/user_profile.dart';
 import 'package:openwardrobe/repositories/user_profile_repository.dart';
 import 'package:openwardrobe/services/user_profile_service.dart';
->>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
 import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
-
-
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,29 +26,6 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-<<<<<<< HEAD
-      body: Align(
-  alignment: Alignment.topCenter,
-  child: FutureBuilder<List<WardrobeItem>>(
-    future: _getClothes(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const CircularProgressIndicator();
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else if (snapshot.hasData) {
-        return Wrap(
-          spacing: 8.0,
-          runSpacing: 8.0,
-        );
-      } else {
-        return const Text('No data');
-      }
-    },
-  ),
-),
-
-=======
       body: FutureBuilder<UserProfile?>(
         future: _fetchUserProfile(),
         builder: (context, userSnapshot) {
@@ -70,7 +42,6 @@ class ProfileScreen extends StatelessWidget {
         },
         
       ),
->>>>>>> 67d18d8c9925fb127d2e27e7e7c2b7aed202840c
     );
   }
 
