@@ -4,7 +4,6 @@ import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
-// WarderobeCategory
 import 'package:openwardrobe/ui/widgets/wardrobe/category.dart';
 
 
@@ -35,14 +34,6 @@ class WardrobeScreen extends StatelessWidget {
         final clothes = snapshot.data;
         return Column(
           children: [
-            // Max width with child
-            
-            // Add search bar
-
-            // Create search bar using material
-            // In a column with padding
-            // Padding
-            // Search bar
 
           ConstrainedBox(constraints: BoxConstraints(maxWidth: 500),
           child: 
@@ -54,7 +45,6 @@ class WardrobeScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Search',
-                    // Icon
                     prefixIcon: Icon(Icons.search),
                     filled: true,
                   ),
