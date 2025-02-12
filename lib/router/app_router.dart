@@ -55,7 +55,7 @@ class AppRouter {
               GoRoute(
                 path: '/wardrobe',
                 name: 'Wardrobe',
-                builder: (context, state) => const WardrobeScreen(),
+                builder: (context, state) => const ProfileScreen(),
                 routes: [
                   GoRoute(
                     path: ':id',
@@ -69,19 +69,14 @@ class AppRouter {
               ),
             ],
           ),
+          
+              
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/profile',
-                name: 'Profile',
-                builder: (context, state) => ProfileScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'settings',
-                    name: 'Settings',
-                    builder: (context, state) => SettingsPage(),
-                  ),
-                ],
+                path: '/settings',
+                name: 'Settings',
+                builder: (context, state) => SettingsPage(),
               ),
             ],
           ),

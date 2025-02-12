@@ -18,7 +18,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     NavigationDestination(icon: Icons.people
     , label: 'Community'),
     NavigationDestination(icon: Icons.checkroom, label: 'Wardrobe'),
-    NavigationDestination(icon: Icons.person, label: 'Profile'),
+    NavigationDestination(icon: Icons.settings, label: 'Settings'),
   ];
 
   @override
