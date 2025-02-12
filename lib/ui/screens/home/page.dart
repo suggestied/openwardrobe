@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home'),
       ),
       body: Align(
-  alignment: Alignment.topCenter, // Houdt de items bovenaan en gecentreerd horizontaal
+  alignment: Alignment.topCenter,
   child: FutureBuilder<List<WardrobeItem>>(
     future: _getClothes(),
     builder: (context, snapshot) {

@@ -8,10 +8,10 @@ class TabScaffold extends StatelessWidget {
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
-    if (location.startsWith('/')) return 0;
+    if (location == '/') return 0;
     if (location.startsWith('/wardrobe')) return 1;
     if (location.startsWith('/profile')) return 2;
-    return 0;  // Default naar Home als geen match
+    return -1;
   }
 
   void _onItemTapped(BuildContext context, int index) {
@@ -39,9 +39,9 @@ class TabScaffold extends StatelessWidget {
         onTap: (index) => _onItemTapped(context, index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.checkroom), label: 'Wardrobe'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.checkroom), label: 'Wardrobe'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import  waardrobe service from this project
 import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
@@ -18,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
         title: const Text('Profile'),
       ),
       body: Align(
-  alignment: Alignment.topCenter, // Houdt de items bovenaan en gecentreerd horizontaal
+  alignment: Alignment.topCenter,
   child: FutureBuilder<List<WardrobeItem>>(
     future: _getClothes(),
     builder: (context, snapshot) {

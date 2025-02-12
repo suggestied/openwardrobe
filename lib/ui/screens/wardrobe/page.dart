@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// import  waardrobe service from this project
 import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
@@ -22,7 +21,7 @@ class WardrobeScreen extends StatelessWidget {
         actions: [],
       ),
       body: Align(
-  alignment: Alignment.topCenter, // Houdt de items bovenaan en gecentreerd horizontaal
+  alignment: Alignment.topCenter,
   child: FutureBuilder<List<WardrobeItem>>(
     future: _getClothes(),
     builder: (context, snapshot) {
@@ -38,7 +37,7 @@ class WardrobeScreen extends StatelessWidget {
           children: clothes?.map((item) {
             return ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth: 500, // Max breedte per item
+                maxWidth: 500,
               ),
               child: WardrobeItemCard(
                 item: item,
