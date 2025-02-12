@@ -11,12 +11,10 @@ class NavigationDestination {
 class ScaffoldWithNavBar extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-  ScaffoldWithNavBar({Key? key, required this.navigationShell})
-      : super(key: key);
+  ScaffoldWithNavBar({super.key, required this.navigationShell});
 
   final List<NavigationDestination> destinations = [
-    NavigationDestination(icon: Icons.people
-    , label: 'Community'),
+    NavigationDestination(icon: Icons.people, label: 'Community'),
     NavigationDestination(icon: Icons.checkroom, label: 'Wardrobe'),
     NavigationDestination(icon: Icons.settings, label: 'Settings'),
   ];
@@ -27,7 +25,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
     const double breakpoint = 600;
 
     if (screenWidth >= breakpoint) {
-      // For larger screens, display a sidebar
       return Scaffold(
         body: Row(
           children: [
@@ -56,7 +53,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
         ),
       );
     } else {
-      // For smaller screens, display a bottom navigation bar
       return Scaffold(
         body: navigationShell,
         bottomNavigationBar: BottomNavigationBar(
@@ -67,6 +63,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
               initialLocation: index == navigationShell.currentIndex,
             );
           },
+          showUnselectedLabels: false,
           items: destinations
               .map(
                 (destination) => BottomNavigationBarItem(
