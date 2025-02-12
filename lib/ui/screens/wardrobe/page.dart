@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildProfileCard(BuildContext context, UserProfile? user) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
