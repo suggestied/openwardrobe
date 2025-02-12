@@ -24,7 +24,9 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
       body: FutureBuilder<UserProfile?>(
         future: _fetchUserProfile(),
         builder: (context, userSnapshot) {
@@ -41,7 +43,9 @@ class ProfileScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          // Add your onPressed code here
+        },
         child: const Icon(Icons.add),
       ),
     );
@@ -51,31 +55,34 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         _buildProfileCard(context, user),
-        if (user != null) _buildTabBar(context, user)
+        if (user != null) _buildTabBar(context, user),
       ],
     );
   }
 
   Widget _buildProfileCard(BuildContext context, UserProfile? user) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Text(
             user?.displayName ?? 'No display name',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
+          const SizedBox(height: 10),
           Text(
             "@${user?.username}",
             style: Theme.of(context)
                 .textTheme
-                .labelLarge
+                .labelMedium
                 ?.copyWith(color: Colors.grey.shade600),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Text(
             user?.bio ?? 'No bio available',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
         ],
@@ -83,34 +90,34 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Build tab bar with public items, and a empty tab
   Widget _buildTabBar(BuildContext context, UserProfile user) {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          const TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.public),
-                text: 'Items',
-              ),
-              Tab(
-                icon: Icon(Icons.style),
-                text: 'Outfits',
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 370,
-            child: TabBarView(
-              children: [
-                _buildPublicItemsList(context, user.id),
-                const Center(child: Text('Empty tab')),
+    return Expanded(
+      child: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            const TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(Icons.public),
+                  text: 'Items',
+                ),
+                Tab(
+                  icon: Icon(Icons.style),
+                  text: 'Outfits',
+                ),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _buildPublicItemsList(context, user.id),
+                  const Center(child: Text('Empty tab')),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -120,9 +127,9 @@ class ProfileScreen extends StatelessWidget {
       future: _fetchPublicItems(userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Error loading items: ${snapshot.error}');
+          return Center(child: Text('Error loading items: ${snapshot.error}'));
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return SingleChildScrollView(
             child: Column(
@@ -130,33 +137,42 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: 400, // Max breedte per item
+                  constraints: const BoxConstraints(
+                    maxWidth: 400,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       WarderobeCategory(
-                          text: 'All Items',
-                          image: Image(
-                              image: NetworkImage(
-                                  'https://picsum.photos/200/300')),
-                          isSelected: true,
-                          onTap: () {}),
+                        text: 'All Items',
+                        image: const Image(
+                          image: NetworkImage('https://picsum.photos/200/300'),
+                        ),
+                        isSelected: true,
+                        onTap: () {
+                          // Handle tap
+                        },
+                      ),
                       WarderobeCategory(
-                          text: 'Tops',
-                          image: Image(
-                              image: NetworkImage(
-                                  'https://picsum.photos/200/300')),
-                          isSelected: false,
-                          onTap: () {}),
+                        text: 'Tops',
+                        image: const Image(
+                          image: NetworkImage('https://picsum.photos/200/300'),
+                        ),
+                        isSelected: false,
+                        onTap: () {
+                          // Handle tap
+                        },
+                      ),
                       WarderobeCategory(
-                          text: 'Bottoms',
-                          image: Image(
-                              image: NetworkImage(
-                                  'https://picsum.photos/200/300')),
-                          isSelected: false,
-                          onTap: () {}),
+                        text: 'Bottoms',
+                        image: const Image(
+                          image: NetworkImage('https://picsum.photos/200/300'),
+                        ),
+                        isSelected: false,
+                        onTap: () {
+                          // Handle tap
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -164,10 +180,12 @@ class ProfileScreen extends StatelessWidget {
                 Wrap(
                   spacing: 8.0,
                   runSpacing: 8.0,
-                  children: (snapshot.data ?? []).map((item) {
+                  children: snapshot.data!.map((item) {
                     return WardrobeItemCard(
                       item: item,
-                      onTap: () {},
+                      onTap: () {
+                        // Handle item tap
+                      },
                     );
                   }).toList(),
                 ),
@@ -175,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         } else {
-          return const Text('No public items available.');
+          return const Center(child: Text('No public items available.'));
         }
       },
     );
