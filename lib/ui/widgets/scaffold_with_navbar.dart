@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+class NavigationDestination {
+  final IconData icon;
+  final String label;
+
+  NavigationDestination({required this.icon, required this.label});
+}
+
 class ScaffoldWithNavBar extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-  const ScaffoldWithNavBar({Key? key, required this.navigationShell})
+  ScaffoldWithNavBar({Key? key, required this.navigationShell})
       : super(key: key);
+
+  final List<NavigationDestination> destinations = [
+    NavigationDestination(icon: Icons.people
+    , label: 'Community'),
+    NavigationDestination(icon: Icons.checkroom, label: 'Wardrobe'),
+    NavigationDestination(icon: Icons.person, label: 'Profile'),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Determine the screen width
     final screenWidth = MediaQuery.of(context).size.width;
-    // Define a breakpoint for displaying the sidebar
     const double breakpoint = 600;
 
     if (screenWidth >= breakpoint) {
@@ -28,20 +40,14 @@ class ScaffoldWithNavBar extends StatelessWidget {
                 );
               },
               labelType: NavigationRailLabelType.selected,
-              destinations: const [
-                NavigationRailDestination(
-                  icon: Icon(Icons.home),
-                  label: Text('Home'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.checkroom),
-                  label: Text('Wardrobe'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.person),
-                  label: Text('Profile'),
-                ),
-              ],
+              destinations: destinations
+                  .map(
+                    (destination) => NavigationRailDestination(
+                      icon: Icon(destination.icon),
+                      label: Text(destination.label),
+                    ),
+                  )
+                  .toList(),
             ),
             Expanded(
               child: navigationShell,
@@ -61,20 +67,14 @@ class ScaffoldWithNavBar extends StatelessWidget {
               initialLocation: index == navigationShell.currentIndex,
             );
           },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checkroom),
-              label: 'Wardrobe',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
+          items: destinations
+              .map(
+                (destination) => BottomNavigationBarItem(
+                  icon: Icon(destination.icon),
+                  label: destination.label,
+                ),
+              )
+              .toList(),
         ),
       );
     }

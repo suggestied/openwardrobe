@@ -6,6 +6,7 @@ import 'package:openwardrobe/services/wardrobe_service.dart';
 import 'package:openwardrobe/repositories/wardrobe_repository.dart';
 import 'package:openwardrobe/models/wardrobe_item.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe/item.dart';
+import 'package:openwardrobe/ui/widgets/wardrobe/category.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -138,6 +139,23 @@ class ProfileScreen extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 400, // Max breedte per item
+              ),
+              child:
+              Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WarderobeCategory(text: 'All Items', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: true, onTap: () {
+            }),
+            WarderobeCategory(text: 'Tops', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
+            }),
+            WarderobeCategory(text: 'Bottoms', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
+            }),
+              ],
+            ),
+            ),
               const SizedBox(height: 10),
 
                Wrap(

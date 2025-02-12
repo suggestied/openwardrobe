@@ -36,26 +36,7 @@ class WardrobeScreen extends StatelessWidget {
         return Column(
           children: [
             // Max width with child
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 400, // Max breedte per item
-              ),
-              child:
-              Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                WarderobeCategory(text: 'All Items', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: true, onTap: () {
-              context.go('/wardrobe');
-            }),
-            WarderobeCategory(text: 'Tops', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
-              context.go('/wardrobe/tops');
-            }),
-            WarderobeCategory(text: 'Bottoms', image: Image(image: NetworkImage('https://picsum.photos/200/300')), isSelected: false, onTap: () {
-              context.go('/wardrobe/bottoms');
-            }),
-              ],
-            ),
-            ),
+            
             // Add search bar
 
             // Create search bar using material
