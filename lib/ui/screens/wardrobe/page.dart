@@ -66,12 +66,10 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 20),
           Text(
             user?.displayName ?? 'No display name',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 10),
           Text(
             "@${user?.username}",
             style: Theme.of(context)
@@ -79,7 +77,6 @@ class ProfileScreen extends StatelessWidget {
                 .labelMedium
                 ?.copyWith(color: Colors.grey.shade600),
           ),
-          const SizedBox(height: 20),
           Text(
             user?.bio ?? 'No bio available',
             style: Theme.of(context).textTheme.bodyMedium,
