@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openwardrobe/models/wardrobe_item.dart';
+import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 
 class WardrobeItemCard extends StatelessWidget {
   final WardrobeItem item;

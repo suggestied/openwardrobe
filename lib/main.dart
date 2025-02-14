@@ -1,34 +1,32 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:openwardrobe/repositories/app_repository.dart';
 import 'router/app_router.dart';
 
-import 'models/wardrobe_item.dart';
-import 'models/outfit.dart';
-import 'models/brand.dart';
-import 'models/item_category.dart';
-import 'models/user_profile.dart';
+import 'package:openwardrobe/di/service_locator.dart';
+
+// sqflite_common_ffi_web
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:sqflite/sqflite.dart' show databaseFactory;
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Hive for local storage
-  await Hive.initFlutter();
+   if (kIsWeb) {
+      databaseFactory = databaseFactoryFfiWeb;
+    }
 
-  // Initialize Supabase
-  await Supabase.initialize(
-    url: "https://openwdsupdemo.sug.lol",
-    anonKey: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTczODg5ODA0MCwiZXhwIjo0ODk0NTcxNjQwLCJyb2xlIjoiYW5vbiJ9.bv0LuM7PP9JxKSrI7XTzw_I2IS7-86L8iqIkHiN-aQI",
-    debug: true,
-  );
+    await AppRepository.configure(databaseFactory);
+
+   
 
 
-   Hive.registerAdapter(WardrobeItemAdapter());
-  Hive.registerAdapter(OutfitAdapter());
-  Hive.registerAdapter(BrandAdapter());
-  Hive.registerAdapter(ItemCategoryAdapter());
-  Hive.registerAdapter(UserProfileAdapter());
+    await AppRepository().initialize();
+
+  setupLocator();
 
   runApp(const MyApp());
 }

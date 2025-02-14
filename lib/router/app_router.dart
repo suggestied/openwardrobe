@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openwardrobe/ui/screens/wardrobe/item/add/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
-import '../ui/screens/wardrobe/page.dart';
-import '../ui/screens/wardrobe/settings/page.dart';
-import '../ui/screens/wardrobe/item/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
 
 class AppRouter {
@@ -50,41 +46,16 @@ class AppRouter {
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/wardrobe',
-                name: 'Wardrobe',
-                builder: (context, state) => const ProfileScreen(),
-                routes: [
-                  GoRoute(
-                    path: '/item/add',
-                    name: 'AddItem',
-                    builder: (context, state) => const CreateItemPage(),
-                  ),
-                  GoRoute(
-                    path: '/item/:id',
-                    name: 'WardrobeItem',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id']!;
-                      return WardrobeItemPage(id: id);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          
               
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: '/settings',
-                name: 'Settings',
-                builder: (context, state) => SettingsPage(),
-              ),
-            ],
-          ),
+          // StatefulShellBranch(
+          //   routes: [
+          //     GoRoute(
+          //       path: '/settings',
+          //       name: 'Settings',
+          //       builder: (context, state) => SettingsPage(),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     ],
