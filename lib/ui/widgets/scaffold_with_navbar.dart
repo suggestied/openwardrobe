@@ -16,7 +16,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
   final List<NavigationDestination> destinations = [
     NavigationDestination(icon: Icons.people, label: 'Community'),
     NavigationDestination(icon: Icons.checkroom, label: 'Wardrobe'),
-    NavigationDestination(icon: Icons.settings, label: 'Settings'),
   ];
 
   @override

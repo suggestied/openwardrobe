@@ -1,35 +1,20 @@
-import '../models/user_profile.dart';
-import '../repositories/user_profile_repository.dart';
+import 'package:openwardrobe/brick/models/User_Profile.model.dart';
+import 'package:brick_core/query.dart';
+import 'package:openwardrobe/repositories/app_repository.dart';
+import 'package:get_it/get_it.dart';
 
 class UserProfileService {
-  final UserProfileRepository _repository;
+  final appRepo = GetIt.instance<AppRepository>();
 
-  UserProfileService(this._repository);
-
-  // Get user profile (fetch from Supabase or local storage)
-  Future<UserProfile?> getUserProfile() async {
-    try {
-      return await _repository.fetchUserProfile();
-    } catch (e) {
-      print('Error getting user profile: $e');
-      return null;
-    }
+  Future<List<UserProfile>> getAll() async {
+    return await appRepo.get<UserProfile>();
   }
 
-  // Update user profile
-  Future<bool> updateUserProfile(UserProfile profile) async {
-    try {
-      await _repository.updateUserProfile(profile);
-      return true;
-    } catch (e) {
-      print('Error updating user profile: $e');
-      return false;
-    }
+  Future<List<UserProfile>> getById(String id) async {
+    return await appRepo.get<UserProfile>(query: Query.where('id', id, limit1: true));
   }
 
-  // Check if profile exists (for onboarding or first-time setup)
-  Future<bool> doesProfileExist() async {
-    final profile = await _repository.fetchUserProfile();
-    return profile != null;
+  Future<void> upsert(UserProfile model) async {
+    await appRepo.upsert<UserProfile>(model);
   }
 }
