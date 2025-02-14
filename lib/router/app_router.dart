@@ -59,7 +59,7 @@ class AppRouter {
               GoRoute(
                 path: '/wardrobe',
                 name: 'Wardrobe',
-                builder: (context, state) => const WardrobeScreen(),
+                builder: (context, state) => WardrobeScreen(),
               ),
             ],
           ),

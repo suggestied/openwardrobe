@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:openwardrobe/brick/models/Wardrobe_Item.model.dart';
-import 'package:openwardrobe/services/wardrobe_item_service.dart';
+import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
+import 'package:openwardrobe/repositories/app_repository.dart';
 // import  waardrobe service from this project
 import 'package:get_it/get_it.dart';
+import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
 class WardrobeScreen extends StatelessWidget {
-  const WardrobeScreen({super.key});
+   WardrobeScreen({super.key});
+
+  final appRepo = GetIt.instance<AppRepository>();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +30,26 @@ class WardrobeScreen extends StatelessWidget {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: FutureBuilder<List<WardrobeItem>>(
-                    future: GetIt.instance<WardrobeItemService>().getAll(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                  future: appRepo.get<WardrobeItem>(),
+                  builder: (context, snapshot) {
 
-                      if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-
-                      final items = snapshot.data ?? [];
-
-                      if (items.isEmpty) {
-                        return const Center(child: Text('No items found'));
-                      }
-
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No items found'));
+                    } else {
+                      final items = snapshot.data!;
                       return ListView.builder(
                         itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(title: Text("test"));
-                        },
+                        itemBuilder: (context, i) => WardrobeItemComponent(item: items[i]),
                       );
-                    },
-                  ),
+                    }
+                  },
+                ),
                 ),
               )
             ],
