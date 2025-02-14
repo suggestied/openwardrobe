@@ -32,7 +32,6 @@ class WardrobeScreen extends StatelessWidget {
                   child: FutureBuilder<List<WardrobeItem>>(
                   future: appRepo.get<WardrobeItem>(),
                   builder: (context, snapshot) {
-
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
@@ -43,12 +42,18 @@ class WardrobeScreen extends StatelessWidget {
                       return const Center(child: Text('No items found'));
                     } else {
                       final items = snapshot.data!;
-                      return ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, i) => WardrobeItemComponent(item: items[i]),
+                      return SingleChildScrollView(
+                        child: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          alignment: WrapAlignment.start,
+                          children: items.map((item) => 
+                            WardrobeItemComponent(item: item)
+                          ).toList(),
+                        ),
                       );
                     }
-                  },
+                  }
                 ),
                 ),
               )
