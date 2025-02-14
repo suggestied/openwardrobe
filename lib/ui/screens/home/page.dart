@@ -4,6 +4,7 @@ import 'package:openwardrobe/services/wardrobe_item_service.dart';
 // import  waardrobe service from this project
 import 'package:openwardrobe/ui/widgets/dashboard/link.dart';
 import 'package:get_it/get_it.dart';
+import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -90,7 +91,7 @@ class HomeScreen extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: new Text("test")
+                  title: Text("test")
                 );
               },
             );

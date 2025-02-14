@@ -4,7 +4,7 @@ import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 class WardrobeItemComponent extends StatelessWidget {
   final WardrobeItem item;
 
-  const WardrobeItemComponent({Key? key, required this.item}) : super(key: key);
+  const WardrobeItemComponent({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

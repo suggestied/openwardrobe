@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
+import '../ui/screens/wardrobe/page.dart';
+import '../ui/screens/wardrobe/add/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
 
 class AppRouter {
@@ -32,6 +34,11 @@ class AppRouter {
         name: 'Auth',
         builder: (context, state) => const AuthScreen(),
       ),
+      // GoRoute(
+      //   path: '/wardrobe/add',
+      //   name: 'Add Item',
+      //   builder: (context, state) => const WardrobeAddScreen(),
+      // ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithNavBar(navigationShell: navigationShell);
@@ -46,7 +53,17 @@ class AppRouter {
               ),
             ],
           ),
-              
+
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/wardrobe',
+                name: 'Wardrobe',
+                builder: (context, state) => const WardrobeScreen(),
+              ),
+            ],
+          ),
+
           // StatefulShellBranch(
           //   routes: [
           //     GoRoute(
