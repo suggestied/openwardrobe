@@ -19,8 +19,8 @@ class UseItem extends OfflineFirstWithSupabaseModel {
   
   final DateTime usedAt;
   
-  @Supabase(foreignKey: 'user_id')
-  final UserProfile userProfile;
+  @Supabase(foreignKey: 'user_profile_id')
+  final UserProfile? userProfile;
 
   UseItem({
     String? id,

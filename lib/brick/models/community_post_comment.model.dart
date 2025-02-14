@@ -19,8 +19,8 @@ class CommunityPostComment extends OfflineFirstWithSupabaseModel {
   final CommunityPost post;
   
   // Association to UserProfile via user_id
-  @Supabase(foreignKey: 'user_id')
-  final UserProfile userProfile;
+  @Supabase(foreignKey: 'user_profile_id')
+  final UserProfile? userProfile;
   
   final String comment;
   final DateTime createdAt;

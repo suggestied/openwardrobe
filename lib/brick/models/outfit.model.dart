@@ -13,8 +13,8 @@ class Outfit extends OfflineFirstWithSupabaseModel {
   @Sqlite(index: true, unique: true)
   final String id;
   
-  @Supabase(foreignKey: 'user_id')
-  final UserProfile userProfile;
+  @Supabase(foreignKey: 'user_profile_id')
+  final UserProfile? userProfile;
   
   final String name;
   final DateTime createdAt;

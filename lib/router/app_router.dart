@@ -42,7 +42,7 @@ class AppRouter {
               GoRoute(
                 path: '/',
                 name: 'Home',
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) => HomeScreen(),
               ),
             ],
           ),

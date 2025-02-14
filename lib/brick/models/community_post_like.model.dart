@@ -17,8 +17,8 @@ class CommunityPostLike extends OfflineFirstWithSupabaseModel {
   @Supabase(foreignKey: 'post_id')
   final CommunityPost post;
   
-  @Supabase(foreignKey: 'user_id')
-  final UserProfile userProfile;
+  @Supabase(foreignKey: 'user_profile_id')
+  final UserProfile? userProfile;
   
   final DateTime createdAt;
 

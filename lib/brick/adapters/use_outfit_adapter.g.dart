@@ -11,8 +11,10 @@ Future<UseOutfit> _$UseOutfitFromSupabase(Map<String, dynamic> data,
       usedAt: data['used_at'] == null
           ? null
           : DateTime.tryParse(data['used_at'] as String),
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository));
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository));
 }
 
 Future<Map<String, dynamic>> _$UseOutfitToSupabase(UseOutfit instance,
@@ -23,8 +25,10 @@ Future<Map<String, dynamic>> _$UseOutfitToSupabase(UseOutfit instance,
     'outfit': await OutfitAdapter().toSupabase(instance.outfit,
         provider: provider, repository: repository),
     'used_at': instance.usedAt.toIso8601String(),
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository)
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null
   };
 }
 
@@ -39,12 +43,16 @@ Future<UseOutfit> _$UseOutfitFromSqlite(Map<String, dynamic> data,
       ))!
           .first,
       usedAt: DateTime.parse(data['used_at'] as String),
-      userProfile: (await repository.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first)
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null))
     ..primaryKey = data['_brick_id'] as int;
 }
 
@@ -56,9 +64,11 @@ Future<Map<String, dynamic>> _$UseOutfitToSqlite(UseOutfit instance,
     'outfit_Outfit_brick_id': instance.outfit.primaryKey ??
         await provider.upsert<Outfit>(instance.outfit, repository: repository),
     'used_at': instance.usedAt.toIso8601String(),
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository)
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null
   };
 }
 
@@ -91,8 +101,8 @@ class UseOutfitAdapter extends OfflineFirstWithSupabaseAdapter<UseOutfit> {
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     )
   };
   @override

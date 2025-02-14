@@ -6,8 +6,10 @@ Future<CommunityPost> _$CommunityPostFromSupabase(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return CommunityPost(
       id: data['id'] as String?,
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository),
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository),
       content: data['content'] as String,
       imageUrl: data['image_url'] == null ? null : data['image_url'] as String?,
       isPublic: data['is_public'] as bool?,
@@ -24,8 +26,10 @@ Future<Map<String, dynamic>> _$CommunityPostToSupabase(CommunityPost instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository),
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null,
     'content': instance.content,
     'image_url': instance.imageUrl,
     'is_public': instance.isPublic,
@@ -39,12 +43,16 @@ Future<CommunityPost> _$CommunityPostFromSqlite(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return CommunityPost(
       id: data['id'] as String,
-      userProfile: (await repository!.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first,
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository?.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null),
       content: data['content'] as String,
       imageUrl: data['image_url'] == null ? null : data['image_url'] as String?,
       isPublic: data['is_public'] == 1,
@@ -58,9 +66,11 @@ Future<Map<String, dynamic>> _$CommunityPostToSqlite(CommunityPost instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository),
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null,
     'content': instance.content,
     'image_url': instance.imageUrl,
     'is_public': instance.isPublic ? 1 : 0,
@@ -88,8 +98,8 @@ class CommunityPostAdapter
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     ),
     'content': const RuntimeSupabaseColumnDefinition(
       association: false,

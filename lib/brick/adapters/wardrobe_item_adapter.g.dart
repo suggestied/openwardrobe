@@ -138,7 +138,7 @@ class WardrobeItemAdapter
       columnName: 'user_profile',
       associationType: UserProfile,
       associationIsNullable: false,
-      foreignKey: 'user_id',
+      foreignKey: 'user_profile_id',
     ),
     'brand': const RuntimeSupabaseColumnDefinition(
       association: true,

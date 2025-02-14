@@ -15,7 +15,7 @@ class Brand extends OfflineFirstWithSupabaseModel {
   final String name;
 
   // Association: foreign key 'user_id' references user_profiles.id
-  @Supabase(foreignKey: 'user_id')
+   @Supabase(foreignKey: 'user_profile_id')
   final UserProfile? userProfile;
 
   Brand({
