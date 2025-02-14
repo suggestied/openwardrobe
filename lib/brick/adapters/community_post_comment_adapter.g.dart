@@ -9,8 +9,10 @@ Future<CommunityPostComment> _$CommunityPostCommentFromSupabase(
       id: data['id'] as String?,
       post: await CommunityPostAdapter().fromSupabase(data['post'],
           provider: provider, repository: repository),
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository),
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository),
       comment: data['comment'] as String,
       createdAt: data['created_at'] == null
           ? null
@@ -25,8 +27,10 @@ Future<Map<String, dynamic>> _$CommunityPostCommentToSupabase(
     'id': instance.id,
     'post': await CommunityPostAdapter()
         .toSupabase(instance.post, provider: provider, repository: repository),
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository),
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null,
     'comment': instance.comment,
     'created_at': instance.createdAt.toIso8601String()
   };
@@ -43,12 +47,16 @@ Future<CommunityPostComment> _$CommunityPostCommentFromSqlite(
             limit1: true),
       ))!
           .first,
-      userProfile: (await repository.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first,
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null),
       comment: data['comment'] as String,
       createdAt: DateTime.parse(data['created_at'] as String))
     ..primaryKey = data['_brick_id'] as int;
@@ -63,9 +71,11 @@ Future<Map<String, dynamic>> _$CommunityPostCommentToSqlite(
     'post_CommunityPost_brick_id': instance.post.primaryKey ??
         await provider.upsert<CommunityPost>(instance.post,
             repository: repository),
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository),
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null,
     'comment': instance.comment,
     'created_at': instance.createdAt.toIso8601String()
   };
@@ -97,8 +107,8 @@ class CommunityPostCommentAdapter
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     ),
     'comment': const RuntimeSupabaseColumnDefinition(
       association: false,

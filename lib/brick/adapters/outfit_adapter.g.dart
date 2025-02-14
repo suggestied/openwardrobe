@@ -6,8 +6,10 @@ Future<Outfit> _$OutfitFromSupabase(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return Outfit(
       id: data['id'] as String?,
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository),
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository),
       name: data['name'] as String,
       createdAt: data['created_at'] == null
           ? null
@@ -27,8 +29,10 @@ Future<Map<String, dynamic>> _$OutfitToSupabase(Outfit instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository),
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null,
     'name': instance.name,
     'created_at': instance.createdAt.toIso8601String(),
     'updated_at': instance.updatedAt.toIso8601String(),
@@ -41,12 +45,16 @@ Future<Outfit> _$OutfitFromSqlite(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return Outfit(
       id: data['id'] as String,
-      userProfile: (await repository!.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first,
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository?.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null),
       name: data['name'] as String,
       createdAt: DateTime.parse(data['created_at'] as String),
       updatedAt: DateTime.parse(data['updated_at'] as String),
@@ -63,9 +71,11 @@ Future<Map<String, dynamic>> _$OutfitToSqlite(Outfit instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository),
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null,
     'name': instance.name,
     'created_at': instance.createdAt.toIso8601String(),
     'updated_at': instance.updatedAt.toIso8601String(),
@@ -91,8 +101,8 @@ class OutfitAdapter extends OfflineFirstWithSupabaseAdapter<Outfit> {
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     ),
     'name': const RuntimeSupabaseColumnDefinition(
       association: false,

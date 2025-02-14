@@ -82,7 +82,7 @@ class BrandAdapter extends OfflineFirstWithSupabaseAdapter<Brand> {
       columnName: 'user_profile',
       associationType: UserProfile,
       associationIsNullable: true,
-      foreignKey: 'user_id',
+      foreignKey: 'user_profile_id',
     )
   };
   @override

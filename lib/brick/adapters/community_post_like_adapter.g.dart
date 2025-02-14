@@ -9,8 +9,10 @@ Future<CommunityPostLike> _$CommunityPostLikeFromSupabase(
       id: data['id'] as String?,
       post: await CommunityPostAdapter().fromSupabase(data['post'],
           provider: provider, repository: repository),
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository),
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository),
       createdAt: data['created_at'] == null
           ? null
           : DateTime.tryParse(data['created_at'] as String));
@@ -24,8 +26,10 @@ Future<Map<String, dynamic>> _$CommunityPostLikeToSupabase(
     'id': instance.id,
     'post': await CommunityPostAdapter()
         .toSupabase(instance.post, provider: provider, repository: repository),
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository),
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null,
     'created_at': instance.createdAt.toIso8601String()
   };
 }
@@ -41,12 +45,16 @@ Future<CommunityPostLike> _$CommunityPostLikeFromSqlite(
             limit1: true),
       ))!
           .first,
-      userProfile: (await repository.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first,
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null),
       createdAt: DateTime.parse(data['created_at'] as String))
     ..primaryKey = data['_brick_id'] as int;
 }
@@ -60,9 +68,11 @@ Future<Map<String, dynamic>> _$CommunityPostLikeToSqlite(
     'post_CommunityPost_brick_id': instance.post.primaryKey ??
         await provider.upsert<CommunityPost>(instance.post,
             repository: repository),
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository),
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null,
     'created_at': instance.createdAt.toIso8601String()
   };
 }
@@ -93,8 +103,8 @@ class CommunityPostLikeAdapter
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     ),
     'createdAt': const RuntimeSupabaseColumnDefinition(
       association: false,

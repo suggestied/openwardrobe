@@ -19,8 +19,8 @@ class UseOutfit extends OfflineFirstWithSupabaseModel {
   
   final DateTime usedAt;
   
-  @Supabase(foreignKey: 'user_id')
-  final UserProfile userProfile;
+  @Supabase(foreignKey: 'user_profile_id')
+  final UserProfile? userProfile;
 
   UseOutfit({
     String? id,

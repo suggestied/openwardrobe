@@ -6,8 +6,10 @@ Future<Lookbook> _$LookbookFromSupabase(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return Lookbook(
       id: data['id'] as String?,
-      userProfile: await UserProfileAdapter().fromSupabase(data['user_profile'],
-          provider: provider, repository: repository),
+      userProfile: data['user_profile'] == null
+          ? null
+          : await UserProfileAdapter().fromSupabase(data['user_profile'],
+              provider: provider, repository: repository),
       title: data['title'] as String,
       description:
           data['description'] == null ? null : data['description'] as String?,
@@ -29,8 +31,10 @@ Future<Map<String, dynamic>> _$LookbookToSupabase(Lookbook instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile': await UserProfileAdapter().toSupabase(instance.userProfile,
-        provider: provider, repository: repository),
+    'user_profile': instance.userProfile != null
+        ? await UserProfileAdapter().toSupabase(instance.userProfile!,
+            provider: provider, repository: repository)
+        : null,
     'title': instance.title,
     'description': instance.description,
     'cover_image_url': instance.coverImageUrl,
@@ -46,12 +50,16 @@ Future<Lookbook> _$LookbookFromSqlite(Map<String, dynamic> data,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return Lookbook(
       id: data['id'] as String,
-      userProfile: (await repository!.getAssociation<UserProfile>(
-        Query.where(
-            'primaryKey', data['user_profile_UserProfile_brick_id'] as int,
-            limit1: true),
-      ))!
-          .first,
+      userProfile: data['user_profile_UserProfile_brick_id'] == null
+          ? null
+          : (data['user_profile_UserProfile_brick_id'] > -1
+              ? (await repository?.getAssociation<UserProfile>(
+                  Query.where('primaryKey',
+                      data['user_profile_UserProfile_brick_id'] as int,
+                      limit1: true),
+                ))
+                  ?.first
+              : null),
       title: data['title'] as String,
       description:
           data['description'] == null ? null : data['description'] as String?,
@@ -72,9 +80,11 @@ Future<Map<String, dynamic>> _$LookbookToSqlite(Lookbook instance,
     OfflineFirstWithSupabaseRepository? repository}) async {
   return {
     'id': instance.id,
-    'user_profile_UserProfile_brick_id': instance.userProfile.primaryKey ??
-        await provider.upsert<UserProfile>(instance.userProfile,
-            repository: repository),
+    'user_profile_UserProfile_brick_id': instance.userProfile != null
+        ? instance.userProfile!.primaryKey ??
+            await provider.upsert<UserProfile>(instance.userProfile!,
+                repository: repository)
+        : null,
     'title': instance.title,
     'description': instance.description,
     'cover_image_url': instance.coverImageUrl,
@@ -103,8 +113,8 @@ class LookbookAdapter extends OfflineFirstWithSupabaseAdapter<Lookbook> {
       association: true,
       columnName: 'user_profile',
       associationType: UserProfile,
-      associationIsNullable: false,
-      foreignKey: 'user_id',
+      associationIsNullable: true,
+      foreignKey: 'user_profile_id',
     ),
     'title': const RuntimeSupabaseColumnDefinition(
       association: false,

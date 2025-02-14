@@ -15,7 +15,7 @@ class WardrobeItem extends OfflineFirstWithSupabaseModel {
   @Sqlite(index: true, unique: true)
   final String id;
   
-  @Supabase(foreignKey: 'user_id')
+  @Supabase(foreignKey: 'user_profile_id')
   final UserProfile userProfile;
   
   @Supabase(foreignKey: 'brand_id')
@@ -26,6 +26,8 @@ class WardrobeItem extends OfflineFirstWithSupabaseModel {
   
   final DateTime createdAt;
   final DateTime updatedAt;
+  
+  @Sqlite(nullable: true)
   final DateTime? deletedAt;
   final String imagePath;
 
